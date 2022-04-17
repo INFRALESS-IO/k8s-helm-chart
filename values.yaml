@@ -1,0 +1,30 @@
+container: {}
+kind: Deployment
+imageRepository: 639206442985.dkr.ecr.us-west-1.amazonaws.com
+imagePullPolicy: Always #CONNEQ always generate images using the same tag name
+
+resources:
+  requests:
+    cpu: "0.25"
+    memory: 200Mi
+  limits:
+    cpu: "0.25"
+    memory: 200Mi
+
+autoscaling:
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+
+serviceAccount:
+  create: false
+  roleArn: "arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>"
+  automountServiceAccountToken: true
+
+service:
+  type: NodePort
+  protocol: TCP
+
+listemRootDomain: false
+redirectToRootDomain: false
+EbsStorageClassName: gp2
