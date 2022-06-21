@@ -1,4 +1,4 @@
-{{- if not (empty $.Values.hostnames) }}
+{{- if $.Values.virtualService }}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -8,20 +8,20 @@ spec:
   gateways:
   - default
   hosts:
-  {{- range $.Values.hostnames }}
-  - {{ . }}.{{ $.Values.rootDomain }}
+  {{- range $key, $value := .Values.hostnames }}
+  - {{ $value.host }}.{{ if (empty $value.customDomain) }}{{ $.Values.defaultDomain }}{{ else }}{{ $value.customDomain }}{{ end }}
   {{- end }}
-  {{- if .Values.listemRootDomain }}
-  - {{ $.Values.rootDomain }}
+  {{- if .Values.listenDefaultDomain }}
+  - {{ $.Values.defaultDomain }}
   {{- end }}
   http:
-  {{- if .Values.redirectToRootDomain }}
+  {{- if .Values.redirectToDefaultDomain }}
   - match:
     - authority:
         exact:
-          {{ $.Values.hostnames }}.{{ $.Values.rootDomain }}
+          {{ $.Values.hostnames }}.{{ $.Values.defaultDomain }}
     redirect:
-      authority: {{ $.Values.rootDomain }}
+      authority: {{ $.Values.defaultDomain }}
   {{- end }}
   - match:
     - uri:
