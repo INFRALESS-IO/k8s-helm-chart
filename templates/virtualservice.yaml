@@ -31,6 +31,6 @@ spec:
     - destination:
         host: {{ $.Values.appName }}.{{ $.Values.namespace }}.svc.cluster.local
         port:
-          number: {{ .Values.service.port }}
+          number: {{ $.Values.service.port }}
   {{- end }}
 {{- end }}
