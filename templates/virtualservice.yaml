@@ -23,6 +23,7 @@ spec:
     redirect:
       authority: {{ $.Values.defaultDomain }}
   {{- end }}
+  {{- if .Values.paths.enabled }}
   {{- range $key, $value := .Values.paths }}
   - match:
     - uri:
@@ -32,5 +33,19 @@ spec:
         host: {{ $.Values.appName }}.{{ $.Values.namespace }}.svc.cluster.local
         port:
           number: {{ $.Values.service.port }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.headers.enabled }}
+  {{- range $key, $value := .Values.headers }}
+  - match:
+    - headers:
+        {{ $value.header }}:
+          exact: "true"
+    route:
+    - destination:
+        host: {{ $.Values.appName }}.{{ $.Values.namespace }}.svc.cluster.local
+        port:
+          number: {{ $.Values.service.port }}
+  {{- end }}
   {{- end }}
 {{- end }}
