@@ -23,12 +23,14 @@ spec:
     redirect:
       authority: {{ $.Values.defaultDomain }}
   {{- end }}
+  {{- range $key, $value := .Values.paths }}
   - match:
     - uri:
-        prefix: /
+        prefix: {{ $value.prefix }}
     route:
     - destination:
         host: {{ $.Values.appName }}.{{ $.Values.namespace }}.svc.cluster.local
         port:
           number: {{ .Values.service.port }}
+  {{- end }}
 {{- end }}
