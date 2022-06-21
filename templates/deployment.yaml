@@ -25,6 +25,10 @@ spec:
             name: {{ .cmName | quote }}
         {{- end }}
       {{- end }}
+      {{- if $.Values.securityContext }}
+      securityContext:
+        runAsUser: 0
+      {{- end }}
       containers:
       {{- range $key, $value := .Values.containers }}
       - name: {{ $value.name }}
