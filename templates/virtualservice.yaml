@@ -23,7 +23,7 @@ spec:
     redirect:
       authority: {{ $.Values.defaultDomain }}
   {{- end }}
-  {{- if .Values.paths.enabled }}
+  {{- if .Values.matchPaths }}
   {{- range $key, $value := .Values.paths }}
   - match:
     - uri:
@@ -35,7 +35,7 @@ spec:
           number: {{ $.Values.service.port }}
   {{- end }}
   {{- end }}
-  {{- if .Values.headers.enabled }}
+  {{- if .Values.matchHeaders }}
   {{- range $key, $value := .Values.headers }}
   - match:
     - headers:
