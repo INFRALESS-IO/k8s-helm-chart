@@ -54,7 +54,12 @@ spec:
       containers:
       {{- range $key, $value := .Values.containers }}
       - name: {{ $value.name }}
+        {{- if not (empty $.Values.imageRepository) }}
         image: "{{ $.Values.imageRepository }}/{{ $.Values.imageName }}:{{ $value.imageVersion }}"
+        {{- end }}
+        {{- if (empty $.Values.imageRepository) }}
+        image: "{{ $.Values.imageName }}:{{ $value.imageVersion }}"
+        {{- end }}
         imagePullPolicy: {{ $.Values.imagePullPolicy }}
         {{- if not (empty $value.port) }}
         ports:
