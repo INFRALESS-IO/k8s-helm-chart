@@ -58,6 +58,13 @@ spec:
             memory: {{ $.Values.resources.limits.memory }}
         {{- if or (not (empty $.Values.envVarsFromSsm)) (not (empty $.Values.envVars)) }}
         env:
+          {{- if $value.dataDog }}
+          - name: DD_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          {{- end }}
           {{- range $envVar, $value := $.Values.envVars }}
           - name: {{ $envVar }}
             value: {{ $value | quote }}
