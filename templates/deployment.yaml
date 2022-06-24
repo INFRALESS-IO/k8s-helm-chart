@@ -15,6 +15,10 @@ spec:
         app: {{ $.Values.appName }}
         spotinst.io/node-lifecycle: {{ $.Values.nodeLifeCycle }}
     spec:
+      {{- if $.Values.nodeSelector.enabled }}
+      nodeSelector:
+        {{ $.Values.nodeSelector.key }}: {{ $.Values.nodeSelector.value }}
+      {{- end }}
       affinity:
         {{- if $.Values.nodeAffinity }}
         nodeAffinity:
