@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: {{ $.Values.appName }}
+        spotinst.io/node-lifecycle: {{ $.Values.nodeLifeCycle }}
     spec:
       affinity:
         {{- if $.Values.nodeAffinity }}
