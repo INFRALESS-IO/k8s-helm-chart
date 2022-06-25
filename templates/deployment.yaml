@@ -93,7 +93,7 @@ spec:
             memory: {{ $.Values.resources.limits.memory }}
         {{- if or (not (empty $.Values.envVarsFromSsm)) (not (empty $.Values.envVars)) }}
         env:
-          {{- if $value.dataDog.enabled }}
+          {{- if $.Values.dataDog.enabled }}
           - name: DD_AGENT_HOST
             valueFrom:
               fieldRef:
