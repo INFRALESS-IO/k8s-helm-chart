@@ -155,7 +155,7 @@ spec:
         {{- end }}
         {{- if or (not (empty $.Values.envVarsFromSsm)) (not (empty $.Values.envVars)) }}
         env:
-          {{- if $value.dataDog }}
+          {{- if $value.dataDog.enabled }}
           - name: DD_AGENT_HOST
             valueFrom:
               fieldRef:
