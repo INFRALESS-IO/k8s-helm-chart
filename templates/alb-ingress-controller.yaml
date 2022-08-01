@@ -2,7 +2,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: {{ $.Values.appName }}
   namespace: {{ $.Values.namespace }}
+  labels:
+    app: {{ $.Values.appName }}
   annotations:
     alb.ingress.kubernetes.io/group.name: {{ $.Values.albIngressController.groupName }}
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": {{ $.Values.albIngressController.listenPorts }}}]'
