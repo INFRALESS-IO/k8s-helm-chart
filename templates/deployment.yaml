@@ -99,9 +99,11 @@ spec:
       - name: {{ $value.name }}
         image: "{{ $.Values.imageRepository }}/{{ $.Values.imageName }}:{{ $value.imageVersion }}"
         imagePullPolicy: Always
-        {{- if not (empty $value.port) }}
+        {{- if not (empty $value.ports) }}
         ports:
-          - containerPort: {{ $value.port }}
+        {{- range $port := $value.ports }}
+          - containerPort: {{ $port }}
+        {{- end }}
         {{- end }}
         {{- if not (empty $value.volumeMounts) }}
         volumeMounts:
