@@ -1,4 +1,6 @@
 {{- if eq $.Values.kind "Deployment" }}
+{{- $nodeSelector := .Values.nodeSelector | default dict }}
+{{- $dataDog := .Values.dataDog | default dict }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,9 +16,9 @@ spec:
       labels:
         app: {{ $.Values.appName }}
     spec:
-      {{- if $.Values.nodeSelector.enabled }}
+      {{- if (get $nodeSelector "enabled") }}
       nodeSelector:
-        {{ $.Values.nodeSelector.key }}: {{ $.Values.nodeSelector.value }}
+        {{ get $nodeSelector "key" }}: {{ get $nodeSelector "value" }}
       {{- end }}
       affinity:
         {{- if $.Values.nodeAffinity }}
@@ -96,7 +98,7 @@ spec:
             memory: {{ $.Values.resources.limits.memory }}
         {{- if or (not (empty $.Values.envVarsFromSsm)) (not (empty $.Values.envVars)) }}
         env:
-          {{- if $.Values.dataDog.enabled }}
+          {{- if (get $dataDog "enabled") }}
           - name: DD_AGENT_HOST
             valueFrom:
               fieldRef:
