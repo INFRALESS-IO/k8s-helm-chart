@@ -23,3 +23,17 @@ service:
 listemRootDomain: false
 redirectToRootDomain: false
 EbsStorageClassName: gp2
+
+albIngressController:
+  enabled: false
+  groupName: ""
+  listenPorts: 443
+  certificateArn: ""
+
+nodeSelector:
+  enabled: false
+  key: ""
+  value: ""
+
+dataDog:
+  enabled: false
